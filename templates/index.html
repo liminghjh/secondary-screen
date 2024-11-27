@@ -60,8 +60,38 @@
                     .catch((err) => console.error("Error fetching data: ", err));
             }
 
-            // 每秒刷新一次数据
+            // 请求天气信息 API
+            function getWeatherInfo() {
+                const weatherUrl = "https://cn.apihz.cn/api/tianqi/tqyb.php?id=88888888&key=88888888&sheng=江苏&place=江阴";
+                
+                fetch(weatherUrl)
+                    .then(response => response.json())  // 假设返回的是 JSON 格式
+                    .then(data => {
+                        // 获取天气信息
+                        const weather = data.weather1; // 天气状况
+                        const temperature = data.temperature; // 当前温度
+                        const humidity = data.humidity; // 湿度
+                        const wind = data.windDirection; // 风向
+                        const windSpeed = data.windSpeed; // 风速
+
+                        // 构造天气信息的文本
+                        const weatherText = `天气：${weather}，温度：${temperature}°C，湿度：${humidity}%，风速：${wind} ${windSpeed} m/s`;
+                        document.getElementById("weather").innerText = weatherText;
+                    })
+                    .catch(error => {
+                        console.error("获取天气信息失败: ", error);
+                        document.getElementById("weather").innerText = "天气信息加载失败";
+                    });
+            }
+
+            // 每秒刷新一次系统信息
             setInterval(getSystemInfo, 5000);
+            
+            // 每小时刷新一次天气信息
+            setInterval(getWeatherInfo, 3600000);  // 每 1 小时刷新一次天气信息
+
+            // 初次加载时获取天气信息
+            getWeatherInfo();
         </script>
     </body>
 </html>
