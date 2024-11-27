@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>副屏监控系统</title>
+        <style>
+            html, body {
+                height: 100%; /* 确保页面高度为 100% */
+                margin: 0;    /* 去掉默认的页面边距 */
+            }
+            body {
+                font-family: Arial, sans-serif;
+                background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
+                background-size: cover;         /* 使背景图片覆盖整个页面 */
+                background-repeat: no-repeat;   /* 防止背景图片重复 */
+                background-position: center center; /* 确保背景图片居中 */
+                color: #fff;
+                text-align: center;
+                padding: 50px;
+            }
+            h1 {
+                font-size: 2.5em;
+                margin-bottom: 20px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            #cpu,
+            #memory,
+            #weather {
+                font-size: 1.5em;
+                margin-top: 20px;
+                background-color: rgba(0, 0, 0, 0.5);
+                padding: 10px;
+                border-radius: 8px;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>副屏监控系统</h1>
+        <div id="cpu">CPU 利用率: 导入中...</div>
+        <div id="memory">内存 利用率: 导入中...</div>
+        <div id="weather">天气：导入中...</div>
+        <script>
+            // 请求后端API以获取CPU和内存的实时信息
+            function getSystemInfo() {
+                fetch("http://127.0.0.1:5000/system_info")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // 更新CPU和内存使用信息
+                        document.getElementById(
+                            "cpu"
+                        ).innerText = `CPU 利用率: ${data.cpu}%`;
+                        document.getElementById(
+                            "memory"
+                        ).innerText = `内存 利用率: ${data.memory}%`;
+                    })
+                    .catch((err) =>
+                        console.error("Error fetching data: ", err)
+                    );
+            }
+
+            // 每秒刷新一次数据
+            setInterval(getSystemInfo, 5000);
+        </script>
+    </body>
+</html>
