@@ -8,7 +8,9 @@
             html, body {
                 height: 100%; /* 确保页面高度为 100% */
                 margin: 0;    /* 去掉默认的页面边距 */
+                overflow: hidden; /* 防止出现滚动条 */
             }
+
             body {
                 font-family: Arial, sans-serif;
                 background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
@@ -17,16 +19,20 @@
                 background-position: center center; /* 确保背景图片居中 */
                 color: #fff;
                 text-align: center;
-                padding: 50px;
+                padding: 0;  /* 去掉 padding，避免超出边界 */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
+
             h1 {
                 font-size: 2.5em;
                 margin-bottom: 20px;
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             }
-            #cpu,
-            #memory,
-            #weather {
+
+            #cpu, #memory, #weather {
                 font-size: 1.5em;
                 margin-top: 20px;
                 background-color: rgba(0, 0, 0, 0.5);
@@ -48,16 +54,10 @@
                     .then((response) => response.json())
                     .then((data) => {
                         // 更新CPU和内存使用信息
-                        document.getElementById(
-                            "cpu"
-                        ).innerText = `CPU 利用率: ${data.cpu}%`;
-                        document.getElementById(
-                            "memory"
-                        ).innerText = `内存 利用率: ${data.memory}%`;
+                        document.getElementById("cpu").innerText = `CPU 利用率: ${data.cpu}%`;
+                        document.getElementById("memory").innerText = `内存 利用率: ${data.memory}%`;
                     })
-                    .catch((err) =>
-                        console.error("Error fetching data: ", err)
-                    );
+                    .catch((err) => console.error("Error fetching data: ", err));
             }
 
             // 每秒刷新一次数据

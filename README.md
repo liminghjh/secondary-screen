@@ -9,3 +9,7 @@
 后端，采用python的flask搭建小型服务器用于对本机实时信息的传递
 
 通过Lively Wallpaper或者Wallpaper engine等壁纸软件，在副屏中动态壁纸处写上服务器的本地ip地址即可
+
+展示如下；
+
+![展示图片](./photo/show.jpg)
